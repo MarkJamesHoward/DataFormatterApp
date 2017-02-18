@@ -1,0 +1,170 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!-- Load the Polymer.Element base class -->
+<link rel="import" href="../polymer/polymer-element.html" />
+
+<dom-module id="data-formatter">
+  <template>
+
+    <!-- Styles MUST be inside template -->
+    <style>
+
+      :host {
+        display: block;
+        height: 100%;
+      }
+
+
+     #formatBtnContainer {
+        grid-area: 3/2/4/4;
+        width: 100%;
+        height: 80px;
+ 
+      }
+
+      #dataToFormatContainer {
+       grid-area: 2/2/3/3;
+
+      }
+
+      #dataFormattedContainer {
+       grid-area: 2/3/3/4;
+      }
+
+      @media screen and (max-width: 800px) {
+      
+        #dataToFormatContainer {
+          grid-row: 1;
+          grid-column:2/4;
+      }
+
+      #dataFormattedContainer {
+       grid-row: 2;
+       grid-column: 2/4;
+      }
+
+       #formatBtnContainer {
+        grid-row: 3;
+        grid-column: 2/4;
+        width: 100%;
+        height: 80px;
+      }
+
+      }
+
+      #container {
+        display: grid;
+        grid-template-columns: 10% 33% 33% 10%;
+        grid-gap: 10px;
+        grid-template-rows: 200px 200px 200px 200px;
+        grid-gap:20px;
+      
+      }
+
+      .box {
+        border-radius: 10px;
+        background-color: #e0e0e0;
+      }
+
+      textarea {
+        width:90%;
+        box-sizing: border-box;
+        resize: none;
+        margin-left:10px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        font-size: 20px;
+        font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+      }
+
+      h3 {
+        margin-left: 10px;
+      }
+
+      .flex1 {
+        display:flex;
+        flex-direction:column;
+        height:100%;
+      }
+  
+    </style>
+
+<div id="container">
+  <div id="dataToFormatContainer" class="box">
+    <div class="flex1">
+      <h3>Enter text to be formatted here</h3>
+      <textarea style="flex-grow:1" id="dataToFormat"></textarea>
+    </div>
+  </div>
+  <div id="dataFormattedContainer" class="box">
+    <div class="flex1">
+      <h3>Formatted text will appear here</h3>
+      <textarea style="flex-grow:1" id="dataFormatted"></textarea>
+    </div>
+  </div>
+  <div id="formatBtnContainer">
+    <button id="formatBtn" on-click="PerformFormat">Format!</button>
+    <button id="copyToClipboard" on-click="copyToClipboard">Copy to Clipboard</button>
+  </div>
+</div>
+
+  </template>
+
+  <script>
+
+    // Extend Polymer.Element base class
+    class DataFormatter extends Polymer.Element {
+
+      static get is() { return 'data-formatter' }
+
+      static get config() {
+        // properties, observers meta data
+        return {
+          properties: {
+            valuesToFormat: {
+              type: Array,
+              observer: '_selectedChanged' 
+            }
+          }
+        };
+      }
+
+      _selectedChanged() {
+      }
+
+      PerformFormat() {
+        let output = [];
+        let index = 0;
+
+        this.valuesToFormat = this.$.dataToFormat.value.split('\n');
+        console.dir(this.valuesToFormat);
+
+        for ( let name of this.valuesToFormat ) {
+          output[index] = "'" + name + "',";
+          this.$.dataFormatted.value += output[index++] + '\n';
+        }
+        this.$.dataFormatted.select();
+        // Copy to the clipboard
+        document.execCommand('copy');
+      }
+      
+
+      connectedCallback() {
+        super.connectedCallback();
+      }
+
+    }
+
+    // Register custom element definition using standard platform API
+    customElements.define(DataFormatter.is, DataFormatter);
+
+  </script>
+</dom-module>

@@ -1,0 +1,18 @@
+{
+  "name": "data-formatter",
+  "private": false,
+  "dependencies": {
+    "polymer": "Polymer/polymer#2.0-preview"
+  },
+  "homepage": "https://github.com/MarkJamesHoward/dataformatter",
+  "_release": "a5f7d3bd32",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a5f7d3bd32588188727296925faabd09101dbab9"
+  },
+  "_source": "https://github.com/MarkJamesHoward/dataformatter.git",
+  "_target": "*",
+  "_originalSource": "dataformatter",
+  "_direct": true
+}
